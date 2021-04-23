@@ -1,16 +1,33 @@
 sftools
 =======
 
+## Prerequisite 
+* Git
+* SFDX
 
+## Steps to use Plugin
 
-[![Version](https://img.shields.io/npm/v/sftools.svg)](https://npmjs.org/package/sftools)
-[![CircleCI](https://circleci.com/gh/pmanabe/sftools/tree/master.svg?style=shield)](https://circleci.com/gh/pmanabe/sftools/tree/master)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/pmanabe/sftools?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sftools/branch/master)
-[![Codecov](https://codecov.io/gh/pmanabe/sftools/branch/master/graph/badge.svg)](https://codecov.io/gh/pmanabe/sftools)
-[![Greenkeeper](https://badges.greenkeeper.io/pmanabe/sftools.svg)](https://greenkeeper.io/)
-[![Known Vulnerabilities](https://snyk.io/test/github/pmanabe/sftools/badge.svg)](https://snyk.io/test/github/pmanabe/sftools)
-[![Downloads/week](https://img.shields.io/npm/dw/sftools.svg)](https://npmjs.org/package/sftools)
-[![License](https://img.shields.io/npm/l/sftools.svg)](https://github.com/pmanabe/sftools/blob/master/package.json)
+### Step 1 
+Open Console / Terminal and Clone this repository at appropriate location by runing command 
+`https://github.com/pmanabe/sftools.git`
+
+### Step 2
+Navigate to folder `Schema-Exporter` and run command `sfdx plugins:link`
+
+### Step 3
+Assume you have org alias authenticated in sfdx with name `sandbox`
+Run below sample command against sfdx org `sandbox`
+
+` sfdx sftools:dependency:object -u demo -o "Account"`
+
+-u : (Required) Authenticated user
+-o : (Required) Target standard object. Only 1 Standard Object for now...
+-p : Path where csv file needs to be generated
+
+### Uninstalling Plugin
+Rune below Command
+
+`sfdx plugins:uninstall "<Path of Plugin Located>"`
 
 <!-- toc -->
 * [Debugging your plugin](#debugging-your-plugin)
