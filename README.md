@@ -12,7 +12,7 @@ Open Console / Terminal and Clone this repository at appropriate location by run
 `https://github.com/pmanabe/sftools.git`
 
 ### Step 2
-Navigate to folder `Schema-Exporter` and run command `sfdx plugins:link`
+Navigate to folder `sftools` and run command `sfdx plugins:link`
 
 ### Step 3
 Assume you have org alias authenticated in sfdx with name `sandbox`
