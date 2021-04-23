@@ -1,8 +1,9 @@
 import { core, flags, SfdxCommand } from "@salesforce/command";
+import { AnyJson } from "@salesforce/ts-types";
 
 // Initialize Messages with the current plugin directory
 core.Messages.importMessagesDirectory(__dirname);
-import excelUtil = require("../../../scripts/createFile");
+//import excelUtil = require("../../../scripts/createFile");
 
 // Load the specific messages for this file. Messages from @salesforce/command, @salesforce/core,
 // or any library that is using the messages framework can also be loaded this way.
@@ -46,7 +47,7 @@ export default class fileoutput extends SfdxCommand {
   };
 
   //Must implement method - run as per contact from SfdxCommand interface
-  public async run(): Promise<core.AnyJson> {
+  public async run(): Promise<AnyJson> {
     this.ux.log(this.flags.objects);
 
     const objects = this.flags.objects;
@@ -98,10 +99,12 @@ export default class fileoutput extends SfdxCommand {
       nillable: boolean;
       createable: boolean;
     }
+
     interface pickList {
       label: string;
       value: string;
     }
+
     interface objectDesc {
       name: string;
       fields: Array<fieldInfo>;
@@ -119,6 +122,7 @@ export default class fileoutput extends SfdxCommand {
     }
 
     interface customField {
+      [x: string]: string;
       Id: string;
       DeveloperName: string;
       TableEnumOrId: string;
@@ -144,7 +148,7 @@ export default class fileoutput extends SfdxCommand {
 
     var objNames = new Array<String>();
     var combinedMetadata = new Array<customFieldDesc>();
-    var dependencyMetadata = new Array<customFieldDesc>();
+    var dependencyMetadata = new Array<dependencyDesc>();
 
     if (objects) {
       var objectContext = objects.split(",");
@@ -153,7 +157,7 @@ export default class fileoutput extends SfdxCommand {
       });
     } else {
       const objNameResult = await conn.request("/services/data/v43.0/sobjects");
-      var sObjectRef = objNameResult as sobjectRes;
+      var sObjectRef = (objNameResult as unknown) as sobjectRes;
       for (var i = 0; i < sObjectRef.sobjects.length; i++) {
         objNames.push(sObjectRef.sobjects[i].name);
       }
@@ -166,7 +170,7 @@ export default class fileoutput extends SfdxCommand {
           objNames[i] +
           "'"
       );
-      var objRes = fldResult as customFieldDesc;
+      var objRes = (fldResult as unknown) as customFieldDesc;
       combinedMetadata.push(objRes);
     }
 
@@ -186,8 +190,8 @@ export default class fileoutput extends SfdxCommand {
             //"00N3n000004bs0SEAQ" +
             "'"
         );
-        var objRes = fldResult as dependencyDesc;
-        dependencyMetadata.push(objRes);
+        var depRes = (fldResult as unknown) as dependencyDesc;
+        dependencyMetadata.push(depRes);
       }
     }
     //this.ux.log(dependencyMetadata);
