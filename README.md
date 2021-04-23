@@ -30,7 +30,9 @@ Rune below Command
 `sfdx plugins:uninstall "<Path of Plugin Located>"`
 
 <!-- toc -->
-* [Debugging your plugin](#debugging-your-plugin)
+
+
+### [Debugging your plugin](#debugging-your-plugin)
 <!-- tocstop -->
 <!-- install -->
 <!-- usage -->
