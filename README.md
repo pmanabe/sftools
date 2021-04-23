@@ -18,7 +18,7 @@ Navigate to folder `sftools` and run command `sfdx plugins:link`
 Assume you have org alias authenticated in sfdx with name `sandbox`
 Run below sample command against sfdx org `sandbox`
 
-` sfdx sftools:dependency:object -u demo -o "Account"`
+` sfdx sftools:dependency:object -u sandbox -o "Account"`
 
 -u : (Required) Authenticated user
 -o : (Required) Target standard object. Only 1 Standard Object for now...
