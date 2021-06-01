@@ -11,10 +11,10 @@ const messages = core.Messages.loadMessages("sftools", "org");
 
 export default class fileoutput extends SfdxCommand {
   private fs = require("fs");
-  public static description = messages.getMessage("commandDescription");
+  public static description = messages.getMessage("objcommandDescription");
 
   public static examples = [
-    `Example : sfdx sftools:dependency:object -u sandboxorg -o "Account" `,
+    `Example : sfdx sftools:dependency:object -u sandboxorg -o "Account" -p /Users/pmanabe/Downloads/ObjectInfo.csv`,
   ];
 
   // Comment this out if your command does not require an org username
@@ -27,14 +27,6 @@ export default class fileoutput extends SfdxCommand {
   protected static requiresProject = false;
 
   protected static flagsConfig = {
-    msg: flags.string({
-      char: "m",
-      description: messages.getMessage("msgFlagDescription"),
-    }),
-    force: flags.boolean({
-      char: "f",
-      description: messages.getMessage("forceFlagDescription"),
-    }),
     path: flags.string({
       char: "p",
       description: messages.getMessage("pathFlagDescription"),
@@ -52,7 +44,7 @@ export default class fileoutput extends SfdxCommand {
 
     const objects = this.flags.objects;
     const filePath =
-      this.flags.path || "/Users/pmanabe/Downloads/ObjectInfo.csv";
+      this.flags.path || "ObjectInfo.csv";
 
     const conn = this.org.getConnection();
 

@@ -1,5 +1,6 @@
 {
   "commandDescription": "Prints a greeting and your org id(s)!",
+  "objcommandDescription": "Given a list of standard objects, return a csv with a list of all related dependencies.",
   "tabcommandDescription": "Extract a map of all applications(Classic/Lightning) with their related tabs!",
   "nameFlagDescription": "name to print",
   "forceFlagDescription": "example boolean flag",

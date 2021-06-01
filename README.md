@@ -25,13 +25,58 @@ Run below sample command against sfdx org `sandbox`
 -o : (Required) Target standard object. Only 1 Standard Object for now...
 -p : Path where csv file needs to be generated
 
+### Commands
+<!-- commands -->
+
+-   [`sfdx sftools:dependency:object -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-datasoslquery--q-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+
+-   [`sfdx sftools:application:tab [-p <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-datasoslquery--q-string--u-string---apiversion-string---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+
 ### Uninstalling Plugin
 Rune below Command
 
 `sfdx plugins:uninstall "<Path of Plugin Located>"`
 
-<!-- toc -->
+## `sfdx sftools:dependency:object -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
+Given a list of standard objects, return a csv with a list of all related dependencies.
+
+```
+USAGE
+  $ sfdx sftools:dependency:object -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel 
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -o, --objects=objects                                                             (required) Comma Seperated API name of objects to get field metadata Info
+  -p, --path=path                                                                   File Name with full Path to create the excel file
+  -u, --targetusername=targetusername                                               username or alias for the target org; overrides default target org
+  -v, --targetdevhubusername=targetdevhubusername                                   username or alias for the dev hub org; overrides default dev hub org
+  --apiversion=apiversion                                                           override the api version used for api requests made by this command
+  --json                                                                            format output as json
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+
+EXAMPLE
+  Example : sfdx sftools:dependency:object -u sandboxorg -o "Account" -p /Users/pmanabe/Downloads/ObjectInfo.csv
+```
+
+## `sfdx sftools:application:tab [-p <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+Extract a map of all applications(Classic/Lightning) with their related tabs!
+
+```
+USAGE
+  $ sfdx sftools:application:tab [-p <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -p, --path=path                                                                   File Name with full Path to create the excel file
+  -u, --targetusername=targetusername                                               username or alias for the target org; overrides default target org
+  --apiversion=apiversion                                                           override the api version used for api requests made by this command
+  --json                                                                            format output as json
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+
+EXAMPLE
+  $ sfdx sftools:application:tab -u sandboxalias -p /Users/pmanabe/Downloads/Tabs.xlsx
+```
 
 ### [Debugging your plugin](#debugging-your-plugin)
 <!-- tocstop -->
