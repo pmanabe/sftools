@@ -13,18 +13,16 @@ const messages = Messages.loadMessages('sftools', 'org');
 
 export default class Org extends SfdxCommand {
 
-  public static description = messages.getMessage('commandDescription');
+  public static description = messages.getMessage('tabcommandDescription');
 
   public static examples = [
   `$ sfdx sftools:application:tab -u sandboxalias -p /Users/pmanabe/Downloads/Tabs.xlsx`
   ];
 
-  public static args = [{name: 'file'}];
+  public static args = [{path: 'path'}];
 
   protected static flagsConfig = {
     // flag with a value (-n, --name=VALUE)
-    name: flags.string({char: 'n', description: messages.getMessage('nameFlagDescription')}),
-    force: flags.boolean({char: 'f', description: messages.getMessage('forceFlagDescription')}),
     path: flags.string({
       char: "p",
       description: messages.getMessage("pathFlagDescription"),
