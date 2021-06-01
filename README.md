@@ -30,7 +30,7 @@ Run below sample command against sfdx org `sandbox`
 
 -   [sfdx sftools:dependency:object -o <string> [-p <string>] [-v <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]](#sfdx-sftoolsdependencyobject--o---p---v---u----apiversion----json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
--   [sfdx sftools:application:tab [-p <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]](#)
+-   [sfdx sftools:application:tab [-p <string>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]](#sfdx-sftoolsapplicationtab--p---u----apiversion----json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
 ### Uninstalling Plugin
 Rune below Command
