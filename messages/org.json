@@ -1,10 +1,12 @@
 {
   "commandDescription": "Prints a greeting and your org id(s)!",
+  "objcommandDescription": "Given a list of standard objects, return a csv with a list of all related dependencies.",
+  "tabcommandDescription": "Extract a map of all applications(Classic/Lightning) with their related tabs!",
   "nameFlagDescription": "name to print",
   "forceFlagDescription": "example boolean flag",
   "errorNoOrgResults": "No results found for the organization '%s'." ,
   "msgFlagDescription" : "comma seperated list of Objects to export",
-  "pathFlagDescription" : "File Name with full Path to create Excel File",
+  "pathFlagDescription" : "File Name with full Path to create the excel file",
   "objectFlagDescription" : "Comma Seperated API name of objects to get field metadata Info",
   "demoFlagDescription" : "Demo Flag"
 }
