@@ -1,9 +1,6 @@
 import { flags, SfdxCommand } from '@salesforce/command';
-import { Messages, SfdxError } from '@salesforce/core';
-import { AnyJson } from '@salesforce/ts-types';
-import { asJsonArray } from '@salesforce/ts-types';
-import { ensureJsonMap } from '@salesforce/ts-types';
-import { appendFile } from 'fs';
+import { Messages } from '@salesforce/core';
+import { AnyJson,asJsonArray,ensureJsonMap } from '@salesforce/ts-types';
 
 var xl = require('excel4node');
 
@@ -19,7 +16,7 @@ export default class Org extends SfdxCommand {
   public static description = messages.getMessage('commandDescription');
 
   public static examples = [
-  `$ sfdx sftools:application:tab -u sandboxalias `
+  `$ sfdx sftools:application:tab -u sandboxalias -p /Users/pmanabe/Downloads/Tabs.xlsx`
   ];
 
   public static args = [{name: 'file'}];
@@ -44,11 +41,11 @@ export default class Org extends SfdxCommand {
   public async run(): Promise<AnyJson> {
 
     const filePath =
-      this.flags.path || "/Users/pmanabe/Downloads/Tabs.xlsx";
+      this.flags.path || "Tabs.xlsx";
     
       // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
     const conn = this.org.getConnection();
-    const customAppQuery = '/services/data/v51.0/tooling/query?q=select+Label,Description,DeveloperName+from+CustomApplication';
+    const customAppQuery = '/services/data/v51.0/tooling/query?q=select+Label,Description,DeveloperName,UiType+from+CustomApplication';
     const tabQuery = '/services/data/v51.0/tabs';
     
     interface customAppRes {
@@ -62,6 +59,7 @@ export default class Org extends SfdxCommand {
       Label: string;
       Description: string;
       DeveloperName: string;
+      UiType: string;
     }
 
     interface appMetadataRes {
@@ -133,6 +131,22 @@ export default class Org extends SfdxCommand {
       },
     });
 
+    var headerStyle = wb.createStyle({
+      alignment: {
+        horizontal: 'center',
+        vertical: 'center',
+      },
+      font: {
+        color: '#FFFFFF',
+        size: 12 
+    }, 
+    fill: {
+        type: 'pattern',  
+        patternType: 'solid', 
+        fgColor: '#08344D'  
+    }
+    });
+
     var wrap = wb.createStyle({ 
       alignment: {
         wrapText: true,
@@ -141,13 +155,19 @@ export default class Org extends SfdxCommand {
     });
 
     //columns header
-    ws.cell(1,1,3,1,true).string('Label').style(centerAlignStyle);
-    ws.cell(1,2,3,2,true).string('DeveloperName').style(centerAlignStyle);
-    ws.cell(1,3,3,3,true).string('Description').style(centerAlignStyle);
-    ws.cell(1,4,3,4,true).string('Tab Qty').style(centerAlignStyle);
+    ws.cell(1,1,3,1,true).string('Label').style(headerStyle);
+    ws.cell(1,2,3,2,true).string('DeveloperName').style(headerStyle);
+    ws.cell(1,3,3,3,true).string('UiType').style(headerStyle);
+    ws.cell(1,4,3,4,true).string('Description').style(headerStyle);
+    ws.cell(1,5,3,5,true).string('Tab Qty').style(headerStyle);
+
+    ws.column(1).setWidth(12);
+    ws.column(2).setWidth(20);
+    ws.column(3).setWidth(12);
+    ws.column(4).setWidth(15);
+    ws.column(5).setWidth(12);
 
     for(var x = 0; x< distinctArray.length; x++){
-      this.ux.log(distinctArray[x]);
       var tab = tabMetadata.get(distinctArray[x]);
       //TODO fix to dynamicaly count records for each column
       //ws.cell(1,x+5).formula('COUNTIF(E4:E71,"✔")').style(centerAlignStyle);
@@ -160,29 +180,52 @@ export default class Org extends SfdxCommand {
         name = distinctArray[x];
         label = distinctArray[x];
       }
-
-      ws.cell(2,x+5).string(name).style(centerAlignStyle);
-      ws.cell(3,x+5).string(label).style(centerAlignStyle);
+      ws.column(x+6).setWidth(15);
+      ws.cell(1,x+6).style(headerStyle);
+      ws.cell(2,x+6).string(name).style(headerStyle);
+      ws.cell(3,x+6).string(label).style(headerStyle);
     }
 
     //rows
     for(var y = 0; y< sCustomAppRef.totalSize; y++){
+      var uiType;
+      var desc;
+      if(sCustomAppRef.records[y].UiType){
+        uiType = sCustomAppRef.records[y].UiType;
+      } else {
+        uiType = 'Classic';
+      }
+
+      if(sCustomAppRef.records[y].Description){
+        desc = sCustomAppRef.records[y].Description;
+      } else {
+        desc = '';
+      }
+
       ws.cell(y+4,1).string(sCustomAppRef.records[y].Label).style(wrap);
       ws.cell(y+4,2).string(sCustomAppRef.records[y].DeveloperName).style(wrap);
-      ws.cell(y+4,3).string(sCustomAppRef.records[y].Description).style(wrap);
-      ws.cell(y+4,4).formula('COUNTIF(E'+(y+4)+':IT'+(y+4)+',"✔")').style(wrap);
+      ws.cell(y+4,3).string(uiType).style(wrap);
+      ws.cell(y+4,4).string(desc).style(wrap);
+      ws.cell(y+4,5).formula('COUNTIF(F'+(y+4)+':IT'+(y+4)+',"✔")').style(wrap);
 
       //columns
       for(var x = 0; x< distinctArray.length; x++){
         const map = tabMap.get(distinctArray[x]);
         const key = sCustomAppRef.records[y].DeveloperName;
         if(map.find(x => x == key)){
-          ws.cell(y+4,x+5).string('✔').style(centerAlignStyle);
+          ws.cell(y+4,x+6).string('✔').style(centerAlignStyle);
         } else {
-          ws.cell(y+4,x+5).string('-').style(centerAlignStyle);
+          ws.cell(y+4,x+6).string('-').style(centerAlignStyle);
         }
       }
     }
+
+    //Add filter to the first row
+    ws.row(1).filter();
+
+    //Automatically freeze columns
+    //ws.column(6).freeze(); // Freezes the first five columns
+    ws.row(3).freeze(); // Freezes the top four rows
 
     wb.write(filePath); 
 
