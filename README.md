@@ -3,8 +3,8 @@
 =======
 
 ## Prerequisite 
-* Git
-* SFDX
+* Git > [How to install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* SFDX > [How to install SFDX](https://developer.salesforce.com/tools/sfdxcli)
 
 ## Steps to use Plugin
 
