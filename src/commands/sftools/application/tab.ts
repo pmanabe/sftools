@@ -43,7 +43,7 @@ export default class Org extends SfdxCommand {
     
       // this.org is guaranteed because requiresUsername=true, as opposed to supportsUsername
     const conn = this.org.getConnection();
-    const customAppQuery = '/services/data/v51.0/tooling/query?q=select+Label,Description,DeveloperName,UiType+from+CustomApplication';
+    const customAppQuery = '/services/data/v51.0/tooling/query?q=select+Label,Description,DeveloperName,UiType,ManageableState+from+CustomApplication';
     const tabQuery = '/services/data/v51.0/tabs';
     
     interface customAppRes {
@@ -58,6 +58,7 @@ export default class Org extends SfdxCommand {
       Description: string;
       DeveloperName: string;
       UiType: string;
+      ManageableState: string;
     }
 
     interface appMetadataRes {
@@ -156,14 +157,16 @@ export default class Org extends SfdxCommand {
     ws.cell(1,1,3,1,true).string('Label').style(headerStyle);
     ws.cell(1,2,3,2,true).string('DeveloperName').style(headerStyle);
     ws.cell(1,3,3,3,true).string('UiType').style(headerStyle);
-    ws.cell(1,4,3,4,true).string('Description').style(headerStyle);
-    ws.cell(1,5,3,5,true).string('Tab Qty').style(headerStyle);
+    ws.cell(1,4,3,4,true).string('ManageableState').style(headerStyle);
+    ws.cell(1,5,3,5,true).string('Description').style(headerStyle);
+    ws.cell(1,6,3,6,true).string('Tab Qty').style(headerStyle);
 
     ws.column(1).setWidth(12);
     ws.column(2).setWidth(20);
     ws.column(3).setWidth(12);
-    ws.column(4).setWidth(15);
-    ws.column(5).setWidth(12);
+    ws.column(4).setWidth(12);
+    ws.column(5).setWidth(15);
+    ws.column(6).setWidth(12);
 
     for(var x = 0; x< distinctArray.length; x++){
       var tab = tabMetadata.get(distinctArray[x]);
@@ -178,10 +181,10 @@ export default class Org extends SfdxCommand {
         name = distinctArray[x];
         label = distinctArray[x];
       }
-      ws.column(x+6).setWidth(15);
-      ws.cell(1,x+6).style(headerStyle);
-      ws.cell(2,x+6).string(name).style(headerStyle);
-      ws.cell(3,x+6).string(label).style(headerStyle);
+      ws.column(x+7).setWidth(15);
+      ws.cell(1,x+7).style(headerStyle);
+      ws.cell(2,x+7).string(name).style(headerStyle);
+      ws.cell(3,x+7).string(label).style(headerStyle);
     }
 
     //rows
@@ -203,17 +206,18 @@ export default class Org extends SfdxCommand {
       ws.cell(y+4,1).string(sCustomAppRef.records[y].Label).style(wrap);
       ws.cell(y+4,2).string(sCustomAppRef.records[y].DeveloperName).style(wrap);
       ws.cell(y+4,3).string(uiType).style(wrap);
-      ws.cell(y+4,4).string(desc).style(wrap);
-      ws.cell(y+4,5).formula('COUNTIF(F'+(y+4)+':IT'+(y+4)+',"✔")').style(wrap);
+      ws.cell(y+4,4).string(sCustomAppRef.records[y].ManageableState).style(wrap);
+      ws.cell(y+4,5).string(desc).style(wrap);
+      ws.cell(y+4,6).formula('COUNTIF(F'+(y+4)+':IT'+(y+4)+',"✔")').style(wrap);
 
       //columns
       for(var x = 0; x< distinctArray.length; x++){
         const map = tabMap.get(distinctArray[x]);
         const key = sCustomAppRef.records[y].DeveloperName;
         if(map.find(x => x == key)){
-          ws.cell(y+4,x+6).string('✔').style(centerAlignStyle);
+          ws.cell(y+4,x+7).string('✔').style(centerAlignStyle);
         } else {
-          ws.cell(y+4,x+6).string('-').style(centerAlignStyle);
+          ws.cell(y+4,x+7).string('-').style(centerAlignStyle);
         }
       }
     }
