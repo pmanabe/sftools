@@ -10,7 +10,7 @@
 
 ### Step 1 
 Open Console / Terminal and Clone this repository at appropriate location by runing command 
-`https://github.com/pmanabe/sftools.git`
+`git clone https://github.com/pmanabe/sftools.git`
 
 ### Step 2
 Navigate to folder `sftools` and run command `sfdx plugins:link`
@@ -21,9 +21,9 @@ Run below sample command against sfdx org `sandbox`
 
 ` sfdx sftools:dependency:object -u sandbox -o "Account"`
 
--u : (Required) Authenticated user
--o : (Required) Target standard object. Only 1 Standard Object for now...
--p : Path where csv file needs to be generated
+-u : (Required) Authenticated user  
+-o : (Required) Target standard object. Only 1 Standard Object for now...  
+-p : Path where csv file needs to be generated  
 
 ### Commands
 <!-- commands -->
