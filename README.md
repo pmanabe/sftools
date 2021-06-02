@@ -9,14 +9,14 @@
 ## Steps to use Plugin
 
 ### Step 1 
-Open Console / Terminal and Clone this repository at appropriate location by runing command 
+Open Console / Terminal and Clone this repository at appropriate location by runing command  
 `git clone https://github.com/pmanabe/sftools.git`
 
 ### Step 2
 Navigate to folder `sftools` and run command `sfdx plugins:link`
 
 ### Step 3
-Assume you have org alias authenticated in sfdx with name `sandbox`
+Assume you have org alias authenticated in sfdx with name `sandbox`   
 Run below sample command against sfdx org `sandbox`
 
 ` sfdx sftools:dependency:object -u sandbox -o "Account"`
